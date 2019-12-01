@@ -1,11 +1,14 @@
-import smtplib
-from gpiozero import LED, Button
+import smtplib,os
+from gpiozero import Button
+
+door = Button(25)
+
 
 #Email Variables
 SMTP_SERVER = 'smtp.gmail.com' 
 SMTP_PORT = 587 
-GMAIL_USERNAME = 'email'
-GMAIL_PASSWORD = 'yourPassword'  
+GMAIL_USERNAME = os.environ["COOPEMAIL"]
+GMAIL_PASSWORD = os.environ["COOPEMAIL_PASS"]
  
 class Emailer:
     def sendmail(self, recipient, subject, content):
@@ -29,9 +32,14 @@ class Emailer:
         session.quit
  
 sender = Emailer()
-sendTo = 'sendto'
+sendTo = os.environ["COOPEMAILRECEIPT"]
 emailSubject = "Chicken Coop Status Report"
-emailContent = "This is a test of the Coop Monitoring"
- 
+emailContent = "This is a test of the Coop Monitoring. Status of Door is:"
+if door.is_pressed:
+    emailContent = emailContent+" Closed"
+else:
+    emailContent = emailContent+" Open"
+
+
 #Sends an email to the "sendTo" address with the specified "emailSubject" as the subject and "emailContent" as the email content.
 sender.sendmail(sendTo, emailSubject, emailContent)

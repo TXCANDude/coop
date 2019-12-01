@@ -1,5 +1,11 @@
 # coop - Controls for Chicken Coop Lights, door, etc.
 
+Ensure the following Environment Variables are added to .bashrc:
+
+COOPEMAIL (mail account from which notifications will be sent)
+COOPEMAIL_PASS (password of above account)
+COOPEMAILRECEIPT (Recipients of the Report)
+
 On new installation create Cron jobs:
 
 @reboot python3 /home/pi/coop/coop_configure.py
